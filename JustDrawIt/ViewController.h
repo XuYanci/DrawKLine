@@ -10,6 +10,7 @@
 
 @interface ViewController : UIViewController
 
+- (IBAction)StockDemoBtnClick:(id)sender;
 
 @end
 
