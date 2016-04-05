@@ -41,20 +41,28 @@
  
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFCompoundResponseSerializer serializer];
-    
+ 
+#if 0 /* WithOut Encrypt*/
     // Default DES-Encrypt value
     NSMutableDictionary *encryptParameters = [NSMutableDictionary dictionary];
     [parameters enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
         NSString *desEncryptObj =  [des encryptWithText:obj theKey:DES_PRIVATE_KEY];
         [encryptParameters setObject:desEncryptObj forKey:key];
     }];
+#endif
+    NSDictionary *encryptParameters = parameters;
   
     [manager POST:[MXBaseUrl baseUrl:method] parameters:encryptParameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
        dispatch_async(dispatch_get_main_queue(), ^{
            // Default DES-DeEncrypt , JSON
            NSData *responseData = (NSData *)responseObject;
            NSString *utf8String = [[NSString alloc]initWithData:responseData encoding:NSUTF8StringEncoding];
+           
+           
+#if 0      /* WithOut Encrypt*/
            NSString *decodeDesString = [des decryptWithText:utf8String theKey:DES_PRIVATE_KEY];
+#endif
+           NSString *decodeDesString = utf8String;
            callback(1,[decodeDesString JSONValue]);
            //DDLogDebug(@"POST REQUEST CALLBACK, Method %@ , params %@ , reponse %@",method,parameters,[decodeDesString JSONValue]);
        });
@@ -71,21 +79,28 @@
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFCompoundResponseSerializer serializer];
   
+#if 0 /* WithOut Encrypt*/
     // Default DES-Encrypt value
     NSMutableDictionary *encryptParameters = [NSMutableDictionary dictionary];
     [parameters enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
         NSString *desEncryptObj = [des encryptWithText:key theKey:DES_PRIVATE_KEY];
         [encryptParameters setObject:desEncryptObj forKey:key];
     }];
+#endif
     
+    NSDictionary *encryptParameters = parameters;
     
-    [manager GET:[MXBaseUrl baseUrlWithParams:method params:parameters] parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [manager GET:[MXBaseUrl baseUrlWithParams:method params:encryptParameters] parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         if (callback) {
               dispatch_async(dispatch_get_main_queue(), ^{
              // Default DES-DeEncrypt, JSON
             NSData *responseData = (NSData *)responseObject;
             NSString *utf8String = [[NSString alloc]initWithData:responseData encoding:NSUTF8StringEncoding];
+#if 0 /* WithOut Encrypt*/
             NSString *decodeDesString = [des decryptWithText:utf8String theKey:DES_PRIVATE_KEY];
+#endif
+                  
+            NSString *decodeDesString = utf8String;
             
             callback(1,[decodeDesString JSONValue]);
             //DDLogDebug(@"GET REQUEST CALLBACK, Method %@ , params %@ , reponse %@",method,parameters,[decodeDesString JSONValue]);

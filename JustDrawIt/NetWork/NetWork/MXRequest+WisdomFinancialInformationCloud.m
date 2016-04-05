@@ -16,16 +16,19 @@
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
     [parameters setObjectIfExists:appid forKey:@"appid"];
     [parameters setObjectIfExists:secretKey forKey:@"secret_key"];
+    [self sendGetRequestWithMethod:@"token" parameters:parameters callback:callback];
 }
 
 + (void)sendQuoteDynaRequest:(NSString *)obj
                        field:(NSString*)field
                       output:(NSString *)output
+                       token:(NSString *)token
                     callback:(Callback)callback {
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
     [parameters setObjectIfExists:obj forKey:@"obj"];
     [parameters setObjectIfExists:field forKey:@"field"];
     [parameters setObjectIfExists:output forKey:@"output"];
+    [parameters setObjectIfExists:token forKey:@"token"];
     [self sendGetRequestWithMethod:@"quote_dyna" parameters:parameters callback:callback];
 }
 
@@ -80,6 +83,7 @@
                       start:(NSString *)start
                       count:(NSString *)count
                      prefix:(NSString *)prefix
+                      token:(NSString *)token
                    callback:(Callback)callback {
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
     [parameters setObjectIfExists:obj forKey:@"obj"];
@@ -90,6 +94,7 @@
     [parameters setObjectIfExists:start forKey:@"start"];
     [parameters setObjectIfExists:count forKey:@"count"];
     [parameters setObjectIfExists:prefix forKey:@"prefix"];
+    [parameters setObjectIfExists:token forKey:@"token"];
     [self sendGetRequestWithMethod:@"quote_min" parameters:parameters callback:callback];
 }
 

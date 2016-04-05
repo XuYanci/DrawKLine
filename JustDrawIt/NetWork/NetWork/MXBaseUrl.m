@@ -16,7 +16,7 @@
              @"quote_dyna" :    YUNDZH_URL_LINK(YUNDZH_URL_PREFIX, YUNDZH_URL_PATH_DYNA),
              @"quote_kline" :   YUNDZH_URL_LINK(YUNDZH_URL_PREFIX, YUNDZH_URL_PATH_KLINE),
              @"tick" :          YUNDZH_URL_LINK(YUNDZH_URL_PREFIX, YUNDZH_URL_PATH_TICK),
-             @"min"  :          YUNDZH_URL_LINK(YUNDZH_URL_PREFIX, YUNDZH_URL_PATH_MIN),
+             @"quote_min"  :          YUNDZH_URL_LINK(YUNDZH_URL_PREFIX, YUNDZH_URL_PATH_MIN),
             };
 }
 
@@ -28,13 +28,16 @@
 + (NSString *)baseUrlWithParams:(NSString *)method params:(NSDictionary *)params {
     __block NSString *url = [[self UrlMethodMapper]objectForKey:method];
     
+    __block BOOL isFirstParam = true;
     [params enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-        url = [url stringByAppendingFormat:@"&%@=%@",(NSString *)key,[[des encryptWithText:(NSString *)obj theKey:DES_PRIVATE_KEY]URLEncodedString]];
+        if (isFirstParam) {
+            url = [url stringByAppendingFormat:@"?%@=%@",(NSString *)key,obj];
+            isFirstParam = false;
+        }
+        else
+            url = [url stringByAppendingFormat:@"&%@=%@",(NSString *)key,obj];
     }];
    
-    
-    url = [url stringByAppendingFormat:@"&aid=%@",[[des encryptWithText:@"1" theKey:DES_PRIVATE_KEY]URLEncodedString ]];
-    url = [url stringByAppendingFormat:@"&t=%@",[[des encryptWithText:[NSString stringWithFormat:@"%ld",(long)[[NSDate date]timeIntervalSince1970]] theKey:DES_PRIVATE_KEY]URLEncodedString]];
     return url;
 }
 

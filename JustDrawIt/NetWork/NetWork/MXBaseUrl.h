@@ -21,7 +21,7 @@
 
 ///////////////////////////// SERVER URL /////////////////////////////////
 /*! 服务器url前缀*/
-#define YUNDZH_URL_PREFIX                 @"http://v2.yundzh.com"
+#define YUNDZH_URL_PREFIX                 @"https://v2.yundzh.com"
 
 ///////////////////////////// TOKEN /////////////////////////////////
 /*! 远程获取令牌 */
