@@ -1,7 +1,6 @@
-# DrawKLine
-绘制分时,K线图等。
+DrawKLine is a demo for display TimeChart, KLine .
 
-1. Please Install CocoaPods in you computer, and install pods below 
+Before your run it , you should install pods below:
 
 pod 'AFNetworking', '~> 2.6.0'
 
@@ -11,4 +10,3 @@ pod 'Masonry', '~> 0.6.2'
 
 pod 'MBProgressHUD', '~> 0.9.1'
 
-2. Run & Enjoy It!
