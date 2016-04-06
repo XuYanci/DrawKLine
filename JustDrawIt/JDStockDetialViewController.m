@@ -23,10 +23,10 @@
 #define kCellIdentifier_ChartsDetail        @"CellIdentifierChartsDetail"
 
 @interface JDStockDetialViewController () <UITableViewDataSource,UITableViewDelegate,DZNSegmentedControlDelegate>
-@property (nonatomic,strong)UITableView *tableView;
+@property (nonatomic,strong) UITableView *tableView;
 @property (nonatomic,strong) NSDictionary *RepDataQuoteDynaSingleDict;  /*! 动态详情字典 */
-@property (nonatomic,strong) NSDictionary *RepDataQuoteMinDict;
-@property (nonatomic,strong)DZNSegmentedControl *sectionModuleHeaderView;
+@property (nonatomic,strong) NSDictionary *RepDataQuoteMinDict;         /*! 动态分时字典 */
+@property (nonatomic,strong) DZNSegmentedControl *sectionModuleHeaderView;
 
 @end
 
@@ -75,10 +75,13 @@
          }
     }];
     
-    /*! 请求分时详情 */
-    
-    NSString *begin_time = @"20160405-093000-000-8";
-    NSString *end_time = @"20160405-150000-000-8";
+    /*! 请求分时详情 (分时详情必须获取当天数据) */
+    NSDate *currentDate = [NSDate date];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
+    [dateFormatter setDateFormat:@"YYYYMMdd"];
+    NSString *currentDay = [dateFormatter stringFromDate:currentDate];
+    NSString *begin_time = [NSString stringWithFormat:@"%@-093000-000-8",currentDay];
+    NSString *end_time = [NSString stringWithFormat:@"%@-150000-000-8",currentDay];
  
     [MXRequest sendQuoteMinRequest:kStockCode
                              field:nil
@@ -109,15 +112,15 @@
          }
      }];
     
-#if 1
-    NSString* string = @"1459819800";
-    NSDate *date = [NSDate dateWithTimeIntervalSince1970:string.integerValue];
-    /*! Convert UTC Date to GMT Date */
-    NSTimeZone *zone = [NSTimeZone systemTimeZone];
-    NSInteger interval = [zone secondsFromGMTForDate:date];
-    NSDate *localeDate = [date dateByAddingTimeInterval:interval];
-    
-#endif
+//#if 1
+//    NSString* string = @"1459819800";
+//    NSDate *date = [NSDate dateWithTimeIntervalSince1970:string.integerValue];
+//    /*! Convert UTC Date to GMT Date */
+//    NSTimeZone *zone = [NSTimeZone systemTimeZone];
+//    NSInteger interval = [zone secondsFromGMTForDate:date];
+//    NSDate *localeDate = [date dateByAddingTimeInterval:interval];
+//    
+//#endif
     
 }
 #pragma mark - tableview datasource
