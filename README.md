@@ -1,4 +1,4 @@
-DrawKLine is a demo for display TimeChart, KLine .
+DrawKLine is a demo for display TimeChart (Not Begin), KLine (Demo Done).
 
 Before your run it , you should install pods below:
 
